@@ -287,7 +287,7 @@ export default function Home() {
       <header className="sticky top-0 z-50 bg-[#131313]/80 backdrop-blur-md">
         <div className="max-w-[1100px] mx-auto px-4 h-20 flex items-center justify-between">
           <a href="#" className="flex items-center gap-2">
-            <Image src="/wc2014-logo.png" alt="FIFA World Cup 2014" width={36} height={36} className="flex-shrink-0" priority style={{ width: 36, height: "auto" }} />
+            <Image src="/wc2014-logo.png" alt="FIFA World Cup 2014" width={36} height={36} className="flex-shrink-0" priority style={{ width: "auto", height: "auto" }} />
             <span className="text-[#3cffd0] text-xl font-bold tracking-tight" style={{ fontFamily: font.heading }}>
               WC
             </span>
@@ -377,7 +377,7 @@ export default function Home() {
                     </div>
                     {article.image && (
                       <div className="w-[100px] h-[100px] flex-shrink-0 relative overflow-hidden">
-                        <Image src={article.image} alt={article.title} fill className="object-cover" sizes="100px" />
+                        <Image src={article.image} alt={article.title} fill className="object-cover" sizes="100px" priority={i === 0} />
                       </div>
                     )}
                   </div>
@@ -583,7 +583,7 @@ export default function Home() {
       <footer className="bg-[#131313]">
         <div className="max-w-[1100px] mx-auto px-4 py-10 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Image src="/wc2014-logo.png" alt="FIFA World Cup 2014" width={30} height={30} className="flex-shrink-0" style={{ width: 30, height: "auto" }} />
+            <Image src="/wc2014-logo.png" alt="FIFA World Cup 2014" width={30} height={30} className="flex-shrink-0" style={{ width: "auto", height: "auto" }} />
             <span className="text-[#3cffd0] text-lg font-bold" style={{ fontFamily: font.heading }}>WC</span>
             <span className="text-white text-lg font-bold" style={{ fontFamily: font.heading }}>2014</span>
           </div>
