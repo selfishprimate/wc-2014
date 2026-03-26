@@ -136,8 +136,8 @@ html, body {
 .black-band-left img { width: 24px; height: 24px; margin: 0 6px; }
 .black-band-left h3 {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 12px; font-weight: 500;
-  color: #e0e0e0;
+  font-size: 14px; font-weight: 500;
+  color: #ffffff;
   letter-spacing: 0.3px; line-height: 36px;
 }
 
@@ -160,7 +160,7 @@ html, body {
 
 .black-band-score-wrapper span {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 16px; font-weight: 600;
+  font-size: 16px; font-weight: 700;
   color: #ffffff;
   letter-spacing: 1px; line-height: 24px;
 }
@@ -175,14 +175,14 @@ html, body {
 
 .black-band-info span {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 400;
-  color: #606060;
+  color: #ffffff;
   letter-spacing: 0.3px;
 }
 
 .black-band-info-separator {
-  color: #444444 !important;
+  color: rgba(255,255,255,0.4) !important;
 }
 
 .black-band-right {
@@ -194,7 +194,7 @@ html, body {
 .black-band-right img { width: 24px; height: 24px; margin: 0 6px; }
 .black-band-right h3 {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 12px; font-weight: 500;
-  color: #e0e0e0;
+  font-size: 14px; font-weight: 500;
+  color: #ffffff;
   letter-spacing: 0.3px; line-height: 36px;
 }

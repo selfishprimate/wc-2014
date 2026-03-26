@@ -134,7 +134,7 @@ const heroArticle: NewsArticle = {
   excerpt: "Mario Götze, 113. dakikada André Schürrle'nin soldan ortasını göğsüyle kontrol edip sol ayağıyla Sergio Romero'nun üzerinden ağlara gönderdi. Maracanã'da oynanan final maçında Almanya, Arjantin'i 1-0 yenerek tarihindeki 4. Dünya Kupası'nı kazandı. 1990'dan bu yana ilk şampiyonluk, birleşik Almanya'nın ise ilk kupası oldu.",
   author: "Spor Servisi",
   time: "13 Temmuz 2014",
-  image: "https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?w=1200&h=800&fit=crop&q=80",
+  image: "/gotze-2.avif",
 };
 
 const sidebarNews: NewsArticle[] = [
@@ -176,7 +176,7 @@ function formatDate(d: string) {
 
 function formatDateShort(d: string) {
   const [day, month] = d.split(".");
-  return `${parseInt(day)} ${monthShort[month] || month}`;
+  return `${parseInt(day)} ${(monthShort[month] || month).toUpperCase()}`;
 }
 
 function MatchRow({ match }: { match: MatchData }) {
@@ -587,11 +587,8 @@ export default function Home() {
             <span className="text-[#3cffd0] text-lg font-bold" style={{ fontFamily: font.heading }}>WC</span>
             <span className="text-white text-lg font-bold" style={{ fontFamily: font.heading }}>2014</span>
           </div>
-          <span className="text-[#949494] text-[11px]" style={{ fontFamily: font.sans }}>
-            FIFA World Cup Brazil 2014
-          </span>
-          <span className="text-[#949494] text-[11px]" style={{ fontFamily: font.sans }}>
-            Designed by <a href="https://www.linkedin.com/in/selfishprimate" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#3cffd0] transition-colors">selfishprimate</a>
+<span className="text-[#949494] text-[11px]" style={{ fontFamily: font.sans }}>
+            DESIGNED BY <a href="https://www.linkedin.com/in/selfishprimate" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#3cffd0] transition-colors">SELFISHPRIMATE</a>
           </span>
         </div>
       </footer>
