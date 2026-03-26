@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { LazyMotion, domAnimation, m } from "framer-motion";
 
 /* ================================================================
    TYPES
@@ -282,12 +282,12 @@ export default function Home() {
   const font = { sans: '"Inter", sans-serif', heading: '"Space Grotesk", sans-serif', mono: '"JetBrains Mono", monospace' };
 
   return (
-    <>
+    <LazyMotion features={domAnimation}>
       {/* ========== HEADER ========== */}
       <header className="sticky top-0 z-50 bg-[#131313]/80 backdrop-blur-md">
         <div className="max-w-[1100px] mx-auto px-4 h-20 flex items-center justify-between">
           <a href="#" className="flex items-center gap-2">
-            <Image src="/wc2014-logo.png" alt="FIFA World Cup 2014" width={36} height={36} className="flex-shrink-0" />
+            <Image src="/wc2014-logo.png" alt="FIFA World Cup 2014" width={36} height={36} className="flex-shrink-0" priority style={{ width: 36, height: "auto" }} />
             <span className="text-[#3cffd0] text-xl font-bold tracking-tight" style={{ fontFamily: font.heading }}>
               WC
             </span>
@@ -313,13 +313,13 @@ export default function Home() {
       <main className="max-w-[1100px] mx-auto px-4 pb-10">
 
             {/* ========== HERO + SIDEBAR ========== */}
-            <motion.section id="mansetler" className="flex gap-[60px] mt-4 mb-16"
+            <m.section id="mansetler" className="flex gap-[60px] mt-4 mb-16"
               initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }} viewport={{ once: true }}>
               {/* HERO - Left */}
               <article className="flex-1 min-w-0">
                   <div className="relative aspect-[5/4] bg-[#1a1a1a] mb-5 overflow-hidden">
-                  <Image src={heroArticle.image!} alt={heroArticle.title} fill className="object-cover" />
+                  <Image src={heroArticle.image!} alt={heroArticle.title} fill className="object-cover" sizes="(max-width: 1100px) 100vw, 700px" priority />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
                   <div className="absolute bottom-6 left-6 right-6">
                     <span className="text-[11px] font-bold uppercase tracking-[0.1em] mb-3 inline-block"
@@ -377,16 +377,16 @@ export default function Home() {
                     </div>
                     {article.image && (
                       <div className="w-[100px] h-[100px] flex-shrink-0 relative overflow-hidden">
-                        <Image src={article.image} alt={article.title} fill className="object-cover" />
+                        <Image src={article.image} alt={article.title} fill className="object-cover" sizes="100px" />
                       </div>
                     )}
                   </div>
                 ))}
               </aside>
-            </motion.section>
+            </m.section>
 
             {/* ========== MORE STORIES ========== */}
-            <motion.section id="haberler" className="mb-16"
+            <m.section id="haberler" className="mb-16"
               initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }} viewport={{ once: true }}>
               <div className="pb-2 mb-6">
@@ -400,7 +400,7 @@ export default function Home() {
                   <article key={article.id} className="pb-6">
                     {article.image && (
                       <div className="relative aspect-[16/9] mb-4 overflow-hidden bg-[#1a1a1a]">
-                        <Image src={article.image} alt={article.title} fill className="object-cover" />
+                        <Image src={article.image} alt={article.title} fill className="object-cover" sizes="(max-width: 1100px) 50vw, 350px" />
                       </div>
                     )}
                     <span className="text-[11px] font-bold uppercase tracking-[0.1em] mb-2 block"
@@ -424,9 +424,9 @@ export default function Home() {
                   </article>
                 ))}
               </div>
-            </motion.section>
+            </m.section>
           {/* ========== GROUPS TAB ========== */}
-          <motion.section id="gruplar" className="mt-4 mb-16"
+          <m.section id="gruplar" className="mt-4 mb-16"
             initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }} viewport={{ once: true }}>
             <div className="pb-2 mb-8">
@@ -465,10 +465,10 @@ export default function Home() {
                 );
               })}
             </div>
-          </motion.section>
+          </m.section>
 
         {/* ========== ŞAMPIYON BANNER ========== */}
-        <motion.section className="mb-16 border border-[#313131] p-8"
+        <m.section className="mb-16 border border-[#313131] p-8"
           initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }} viewport={{ once: true }}>
           <div className="flex items-center justify-between">
@@ -514,19 +514,19 @@ export default function Home() {
               Mario Götze 113&apos;
             </span>
           </div>
-        </motion.section>
+        </m.section>
 
       </main>
 
       {/* ========== INTERACTIVE CHART SECTION ========== */}
-      <motion.section id="maclar" className="relative py-16 overflow-hidden bg-[#0a0a0a]"
+      <m.section id="maclar" className="relative py-16 overflow-hidden bg-[#0a0a0a]"
         initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }} viewport={{ once: true }}>
         <Image
           src="https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=1600&h=1000&fit=crop&q=80"
           alt=""
           fill
-          className="object-cover opacity-20 pointer-events-none"
+          className="object-cover opacity-20 pointer-events-none" sizes="100vw"
         />
         <div className="absolute inset-0 pointer-events-none" style={{
           backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.03) 3px, rgba(255,255,255,0.03) 4px)",
@@ -577,13 +577,13 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </motion.section>
+      </m.section>
 
       {/* ========== FOOTER ========== */}
       <footer className="bg-[#131313]">
         <div className="max-w-[1100px] mx-auto px-4 py-10 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Image src="/wc2014-logo.png" alt="FIFA World Cup 2014" width={30} height={30} className="flex-shrink-0" />
+            <Image src="/wc2014-logo.png" alt="FIFA World Cup 2014" width={30} height={30} className="flex-shrink-0" style={{ width: 30, height: "auto" }} />
             <span className="text-[#3cffd0] text-lg font-bold" style={{ fontFamily: font.heading }}>WC</span>
             <span className="text-white text-lg font-bold" style={{ fontFamily: font.heading }}>2014</span>
           </div>
@@ -592,6 +592,6 @@ export default function Home() {
           </span>
         </div>
       </footer>
-    </>
+    </LazyMotion>
   );
 }
