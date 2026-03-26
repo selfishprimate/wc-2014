@@ -12,6 +12,10 @@ html, body {
   padding: 0;
 }
 
+[id] {
+  scroll-margin-top: 90px;
+}
+
 /* ========== SVG CHART ========== */
 .svg-chart-container svg {
   display: block;
@@ -27,97 +31,100 @@ html, body {
 /* ========== MATCH CIRCLE ========== */
 /* ========== MATCH CIRCLE - DARK THEME ========== */
 .wc-centered-content {
-  width: 570px;
-  height: 570px;
+  width: 590px;
+  height: 590px;
   border-radius: 100%;
   overflow: hidden;
-  background-color: #111111;
-  box-shadow: 0 0 40px 10px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+  background-color: rgba(0,0,0,0.4);
+  box-shadow: none;
   z-index: 10;
 }
 
 .wc-content-title-wrapper {
-  float: left;
-  width: 570px;
-  height: 64px;
-  background-color: transparent;
-  border-bottom: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 130px 24px;
 }
 
 .wc-title-centered {
-  display: block;
-  width: auto;
-  height: 30px;
-  text-align: center;
-  margin-top: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  max-width: 460px;
+  overflow: hidden;
 }
 
 .wc-title-centered img {
   width: 28px; height: 28px;
-  margin-right: 8px;
-  display: inline-block;
-  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.wc-title-text-wrapper {
+  overflow: hidden;
+  text-align: center;
+  min-width: 0;
 }
 
 .wc-title-centered h2 {
-  display: inline-block;
   font-family: "Space Grotesk", sans-serif;
   font-size: 18px;
   font-weight: 600;
   color: #ffffff;
   letter-spacing: 0.3px;
-  vertical-align: middle;
+  line-height: 1.2;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wc-title-subtext {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: #707070;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .wc-ulist {
   float: left;
-  width: 570px;
+  width: 590px;
   height: auto;
-  padding: 16px 0;
+  padding: 0;
   list-style: none;
   margin: 0;
   scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 .wc-ulist::-webkit-scrollbar { display: none; }
 
 .wc-ulist li {
   width: 100%;
-  height: 52px;
-  margin: 6px 0;
-}
-
-.li-date-group-hold { width: 570px; height: 20px; }
-
-.li-date-group-centered {
-  display: block;
-  width: auto; height: 20px;
-  margin: 0 auto;
-  text-align: center;
-  line-height: 20px;
-}
-
-.li-date-group-centered span {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  color: #707070;
-  display: inline-block;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  height: auto;
+  margin: 0;
 }
 
 .black-band-hold {
-  width: 570px; height: 36px;
-  background-color: #1a1a1a;
-  border-top: 1px solid #222222;
-  border-bottom: 1px solid #222222;
+  width: 590px; height: 56px;
+  background-color: rgba(255,255,255,0.06);
   display: flex;
   align-items: center;
   transition: background-color 0.15s ease;
 }
 
 .black-band-hold:hover {
-  background-color: #222222;
+  background-color: rgba(255,255,255,0.12);
 }
 
 .black-band-left {
@@ -135,17 +142,16 @@ html, body {
 }
 
 .black-band-center {
-  width: 100px; height: 26px;
-  border-radius: 13px;
-  background-color: #0d0d0d;
-  border: 1px solid #2a2a2a;
-  text-align: center;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
 .black-band-score-wrapper {
-  width: 55px; height: 26px;
-  margin: 0 auto;
+  width: 55px; height: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -156,7 +162,27 @@ html, body {
   font-family: "Space Grotesk", sans-serif;
   font-size: 16px; font-weight: 600;
   color: #ffffff;
-  letter-spacing: 1px; line-height: 26px;
+  letter-spacing: 1px; line-height: 24px;
+}
+
+.black-band-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 1px;
+  white-space: nowrap;
+}
+
+.black-band-info span {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  color: #606060;
+  letter-spacing: 0.3px;
+}
+
+.black-band-info-separator {
+  color: #444444 !important;
 }
 
 .black-band-right {

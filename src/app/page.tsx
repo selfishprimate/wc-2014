@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 /* ================================================================
    TYPES
@@ -162,20 +163,25 @@ const monthNames: Record<string, string> = {
   "09": "Eylül", "10": "Ekim", "11": "Kasım", "12": "Aralık",
 };
 
+const monthShort: Record<string, string> = {
+  "01": "Oca", "02": "Şub", "03": "Mar", "04": "Nis",
+  "05": "May", "06": "Haz", "07": "Tem", "08": "Ağu",
+  "09": "Eyl", "10": "Eki", "11": "Kas", "12": "Ara",
+};
+
 function formatDate(d: string) {
   const [day, month, year] = d.split(".");
   return `${parseInt(day)} ${monthNames[month] || month} 20${year}`;
 }
 
+function formatDateShort(d: string) {
+  const [day, month] = d.split(".");
+  return `${parseInt(day)} ${monthShort[month] || month}`;
+}
+
 function MatchRow({ match }: { match: MatchData }) {
   return (
     <li>
-      <div className="li-date-group-hold">
-        <div className="li-date-group-centered">
-          <span className="mr-2">{formatDate(match.date)}</span>
-          <span>{match.group.toUpperCase()}</span>
-        </div>
-      </div>
       <div className="black-band-hold">
         <div className="black-band-left">
           <span className="flex items-center">
@@ -188,6 +194,11 @@ function MatchRow({ match }: { match: MatchData }) {
             <span>{match.homeScore}</span>
             <span>-</span>
             <span>{match.awayScore}</span>
+          </div>
+          <div className="black-band-info">
+            <span>{formatDateShort(match.date)}</span>
+            <span className="black-band-info-separator">·</span>
+            <span>{match.group.toUpperCase()}</span>
           </div>
         </div>
         <div className="black-band-right">
@@ -207,7 +218,6 @@ function MatchRow({ match }: { match: MatchData }) {
 export default function Home() {
   const [data, setData] = useState<ApiData | null>(null);
   const [hover, setHover] = useState<HoverState>({ type: "none" });
-  const [activeTab, setActiveTab] = useState<"haberler" | "gruplar">("haberler");
   const svgRef = useRef<HTMLDivElement>(null);
   const svgLoaded = useRef(false);
 
@@ -234,8 +244,18 @@ export default function Home() {
       });
   }, [data]);
 
+  const stadiumNames: Record<string, string> = {
+    spaulo: "Arena Corinthians", salvador: "Arena Fonte Nova",
+    rio: "Estádio do Maracanã", recife: "Arena Pernambuco",
+    porto: "Estádio Beira-Rio", natal: "Arena das Dunas",
+    manaus: "Arena da Amazônia", fortaleza: "Estádio Castelão",
+    curitiba: "Arena da Baixada", cuiaba: "Arena Pantanal",
+    brasilia: "Estádio Nacional Mané Garrincha", belo: "Estádio Mineirão",
+  };
+
   let filteredMatches = data?.matches ?? [];
   let titleText = "Tüm Maçlar";
+  let titleSubtext = "";
   let titleFlag: string | undefined = undefined;
 
   if (data && hover.type === "team") {
@@ -251,7 +271,8 @@ export default function Home() {
   } else if (data && hover.type === "stadium") {
     const indices = data.matchesByStadium[hover.id] || [];
     filteredMatches = indices.map((i) => data.matches[i]).filter(Boolean);
-    titleText = data.stadiums[hover.id] || hover.id;
+    titleText = stadiumNames[hover.id] || hover.id;
+    titleSubtext = data.stadiums[hover.id] || "";
   } else if (data && hover.type === "date") {
     filteredMatches = data.matches.filter((m) => m.date === hover.date);
     titleText = formatDate(hover.date);
@@ -263,7 +284,7 @@ export default function Home() {
   return (
     <>
       {/* ========== HEADER ========== */}
-      <header className="sticky top-0 z-50 bg-[#131313]">
+      <header className="sticky top-0 z-50 bg-[#131313]/80 backdrop-blur-md">
         <div className="max-w-[1100px] mx-auto px-4 h-20 flex items-center justify-between">
           <a href="#" className="flex items-center gap-2">
             <Image src="/wc2014-logo.png" alt="FIFA World Cup 2014" width={36} height={36} className="flex-shrink-0" />
@@ -275,12 +296,15 @@ export default function Home() {
             </span>
           </a>
           <nav className="flex items-center gap-6">
-            {["Haberler", "Maçlar", "Takımlar", "Analiz", "Gruplar", "İnteraktif"].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`}
-                className="text-[#949494] text-[14px] font-medium hover:text-white transition-colors"
-                style={{ fontFamily: font.heading }}>
-                {item}
-              </a>
+            {([["mansetler", "Manşetler"], ["haberler", "Haberler"], ["gruplar", "Gruplar"], ["maclar", "Tüm Maçlar"]] as const).map(([key, label]) => (
+              <button key={key} onClick={() => {
+                const el = document.getElementById(key);
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+              }}
+                className="text-[#949494] text-[14px] font-medium uppercase hover:!text-[#3cffd0] transition-colors cursor-pointer"
+                style={{ fontFamily: font.mono }}>
+                {label}
+              </button>
             ))}
           </nav>
         </div>
@@ -288,30 +312,10 @@ export default function Home() {
 
       <main className="max-w-[1100px] mx-auto px-4 pb-10">
 
-        {/* ========== STICKY TAB BAR ========== */}
-        <div className="sticky top-14 z-40 flex items-center justify-center py-4">
-          <div className="relative flex items-center">
-            <div className="absolute inset-0 top-1/2 h-px bg-[#2d2d2d]" />
-            <div className="relative flex gap-1 bg-[#131313] px-2">
-              {(["haberler", "gruplar"] as const).map((tab) => (
-                <button key={tab} onClick={() => setActiveTab(tab)}
-                  className="px-5 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-[1.5px] transition-colors"
-                  style={{
-                    fontFamily: font.mono,
-                    backgroundColor: activeTab === tab ? "#3cffd0" : "#2d2d2d",
-                    color: activeTab === tab ? "#000" : "#e9e9e9",
-                  }}>
-                  {tab === "haberler" ? "Son Haberler" : "Grup Tabloları"}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {activeTab === "haberler" ? (
-          <>
             {/* ========== HERO + SIDEBAR ========== */}
-            <section className="flex gap-[60px] mt-4 mb-16">
+            <motion.section id="mansetler" className="flex gap-[60px] mt-4 mb-16"
+              initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }} viewport={{ once: true }}>
               {/* HERO - Left */}
               <article className="flex-1 min-w-0">
                   <div className="relative aspect-[5/4] bg-[#1a1a1a] mb-5 overflow-hidden">
@@ -343,10 +347,11 @@ export default function Home() {
 
               {/* SIDEBAR - Right */}
               <aside className="w-[340px] flex-shrink-0">
-                <div className="border-b border-[#e9e9e9] pb-2 mb-4">
-                  <span className="text-[20px] font-bold text-white" style={{ fontFamily: font.heading }}>
+                <div className="pb-2 mb-4">
+                  <span className="text-[28px] font-bold text-white" style={{ fontFamily: font.heading }}>
                     Manşetler
                   </span>
+                  <p className="text-[#949494] text-[14px] mt-1" style={{ fontFamily: font.sans }}>Turnuvanın öne çıkan haberleri</p>
                 </div>
                 {sidebarNews.map((article, i) => (
                   <div key={article.id} className="flex items-start gap-4 py-4 border-b border-[#313131]">
@@ -378,18 +383,21 @@ export default function Home() {
                   </div>
                 ))}
               </aside>
-            </section>
+            </motion.section>
 
             {/* ========== MORE STORIES ========== */}
-            <section className="mb-16">
-              <div className="border-b border-[#e9e9e9] pb-2 mb-6">
-                <span className="text-[20px] font-bold text-white" style={{ fontFamily: font.heading }}>
-                  Turnuva Haberleri
+            <motion.section id="haberler" className="mb-16"
+              initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }} viewport={{ once: true }}>
+              <div className="pb-2 mb-6">
+                <span className="text-[28px] font-bold text-white" style={{ fontFamily: font.heading }}>
+                  Haberler
                 </span>
+                <p className="text-[#949494] text-[14px] mt-1" style={{ fontFamily: font.sans }}>2014 Dünya Kupası'ndan haberler ve analizler</p>
               </div>
-              <div className="grid grid-cols-2 gap-x-12 gap-y-10">
+              <div className="grid grid-cols-3 gap-x-8 gap-y-10">
                 {moreNews.map((article) => (
-                  <article key={article.id} className="border-b border-[#313131] pb-6">
+                  <article key={article.id} className="pb-6">
                     {article.image && (
                       <div className="relative aspect-[16/9] mb-4 overflow-hidden bg-[#1a1a1a]">
                         <Image src={article.image} alt={article.title} fill className="object-cover" />
@@ -416,15 +424,16 @@ export default function Home() {
                   </article>
                 ))}
               </div>
-            </section>
-          </>
-        ) : (
-          /* ========== GROUPS TAB ========== */
-          <section className="mt-4 mb-16">
-            <div className="border-b border-[#e9e9e9] pb-2 mb-8">
-              <span className="text-[20px] font-bold text-white" style={{ fontFamily: font.heading }}>
-                Grup Aşaması
+            </motion.section>
+          {/* ========== GROUPS TAB ========== */}
+          <motion.section id="gruplar" className="mt-4 mb-16"
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }} viewport={{ once: true }}>
+            <div className="pb-2 mb-8">
+              <span className="text-[28px] font-bold text-white" style={{ fontFamily: font.heading }}>
+                Gruplar
               </span>
+              <p className="text-[#949494] text-[14px] mt-1" style={{ fontFamily: font.sans }}>8 grup, 32 takım — grup sıralamaları ve kadro detayları</p>
             </div>
             <div className="grid grid-cols-4 gap-6">
               {groupNames.map((groupName) => {
@@ -456,11 +465,12 @@ export default function Home() {
                 );
               })}
             </div>
-          </section>
-        )}
+          </motion.section>
 
         {/* ========== ŞAMPIYON BANNER ========== */}
-        <section className="mb-16 border border-[#313131] p-8">
+        <motion.section className="mb-16 border border-[#313131] p-8"
+          initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }} viewport={{ once: true }}>
           <div className="flex items-center justify-between">
             <div>
               <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#3cffd0] block mb-2"
@@ -471,7 +481,7 @@ export default function Home() {
                 style={{ fontFamily: font.heading }}>
                 ALMANYA
               </h2>
-              <p className="text-[#949494] text-[14px]" style={{ fontFamily: font.sans, fontStyle: "italic" }}>
+              <p className="text-[#949494] text-[14px]" style={{ fontFamily: font.sans }}>
                 Maracanã, Rio de Janeiro — 13 Temmuz 2014
               </p>
             </div>
@@ -504,25 +514,31 @@ export default function Home() {
               Mario Götze 113&apos;
             </span>
           </div>
-        </section>
+        </motion.section>
 
       </main>
 
       {/* ========== INTERACTIVE CHART SECTION ========== */}
-      <section id="interaktif" className="relative py-16 overflow-hidden bg-[#0a0a0a]">
+      <motion.section id="maclar" className="relative py-16 overflow-hidden bg-[#0a0a0a]"
+        initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }} viewport={{ once: true }}>
         <Image
           src="https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=1600&h=1000&fit=crop&q=80"
           alt=""
           fill
           className="object-cover opacity-20 pointer-events-none"
         />
+        <div className="absolute inset-0 pointer-events-none" style={{
+          backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.03) 3px, rgba(255,255,255,0.03) 4px)",
+          zIndex: 1,
+        }} />
         <div className="relative z-10 max-w-[1100px] mx-auto px-4 mb-10">
-          <div className="border-b border-[#e9e9e9] pb-2 mb-2">
-            <span className="text-[20px] font-bold text-white" style={{ fontFamily: font.heading }}>
-              İnteraktif Turnuva Grafiği
+          <div className="pb-1">
+            <span className="text-[28px] font-bold text-white" style={{ fontFamily: font.heading }}>
+              Tüm Maçlar
             </span>
           </div>
-          <p className="text-[#949494] text-[14px] mt-2" style={{ fontFamily: font.sans, fontStyle: "italic" }}>
+          <p className="text-white text-[16px] mt-1" style={{ fontFamily: font.sans }}>
             Takımlar, gruplar, stadyumlar ve tarihlerin üzerine gelerek maç detaylarını keşfedin
           </p>
         </div>
@@ -543,14 +559,17 @@ export default function Home() {
             </a>
 
             <div className="wc-centered-content"
-              style={{ position: "absolute", top: 166, left: 205 }}>
+              style={{ position: "absolute", top: 156, left: 195 }}>
               <div className="wc-content-title-wrapper">
                 <div className="wc-title-centered">
                   {titleFlag && <Image src={titleFlag} alt={titleText} width={30} height={30} />}
-                  <h2>{titleText}</h2>
+                  <div className="wc-title-text-wrapper">
+                    <h2>{titleText}</h2>
+                    {titleSubtext && <span className="wc-title-subtext">{titleSubtext}</span>}
+                  </div>
                 </div>
               </div>
-              <ul className="wc-ulist overflow-y-auto" style={{ maxHeight: 470 }}>
+              <ul className="wc-ulist overflow-y-auto" style={{ paddingBottom: 100, height: "100%" }}>
                 {filteredMatches.map((match, i) => (
                   <MatchRow key={i} match={match} />
                 ))}
@@ -558,25 +577,21 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* ========== FOOTER ========== */}
       <footer className="bg-[#131313]">
         <div className="max-w-[1100px] mx-auto px-4 py-10 flex items-center justify-between">
           <div className="flex items-center gap-2">
+            <Image src="/wc2014-logo.png" alt="FIFA World Cup 2014" width={30} height={30} className="flex-shrink-0" />
             <span className="text-[#3cffd0] text-lg font-bold" style={{ fontFamily: font.heading }}>WC</span>
             <span className="text-white text-lg font-bold" style={{ fontFamily: font.heading }}>2014</span>
           </div>
-          <div className="flex items-center gap-6">
-            {["Haberler", "Maçlar", "Takımlar", "Analiz", "Hakkında"].map((item) => (
-              <span key={item} className="text-[#949494] text-[12px] uppercase tracking-[0.06em] hover:text-white transition-colors cursor-pointer"
-                style={{ fontFamily: font.heading }}>
-                {item}
-              </span>
-            ))}
-          </div>
           <span className="text-[#949494] text-[11px]" style={{ fontFamily: font.sans }}>
             FIFA World Cup Brazil 2014
+          </span>
+          <span className="text-[#949494] text-[11px]" style={{ fontFamily: font.sans }}>
+            Designed by <a href="https://www.linkedin.com/in/selfishprimate" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#3cffd0] transition-colors">selfishprimate</a>
           </span>
         </div>
       </footer>
