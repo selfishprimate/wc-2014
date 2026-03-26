@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Hammersmith+One&family=Oswald:wght@300;400;700&family=Francois+One&display=swap');
+@import "tailwindcss";
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Prevent SVG from causing scroll overflow */
+.svg-chart-container svg {
+  display: block;
+  width: 980px;
+  height: 900px;
+}
+
+/* Hide scrollbar on match list but keep scrollable */
+.wc-ulist::-webkit-scrollbar {
+  display: none;
+}
+.wc-ulist {
+  scrollbar-width: none;
+}
+
+/* World Cup 2014 Styles */
+.wc-centered-content {
+  width: 570px;
+  height: 570px;
+  background-color: rgb(30, 120, 100);
+  border-radius: 100%;
+  overflow: hidden;
+  box-shadow: 0 0 8px 5px rgba(0, 0, 0, 0.4) inset;
+  background-image: url('/takimlar-images/bg03.png');
+  background-repeat: no-repeat;
+  background-position: top left;
+  z-index: 10;
+}
+
+.wc-content-title-wrapper {
+  float: left;
+  width: 570px;
+  height: 69px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.wc-title-centered {
+  display: block;
+  width: auto;
+  height: 30px;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.wc-title-centered img {
+  width: 30px;
+  height: 30px;
+  margin-right: 6px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.wc-title-centered h2 {
+  display: inline-block;
+  font-family: "Francois One", "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+}
+
+.wc-ulist {
+  float: left;
+  width: 570px;
+  height: auto;
+  padding: 20px 0;
+  list-style: none;
+  margin: 0;
+}
+
+.wc-ulist li {
+  width: 100%;
+  height: 50px;
+  margin: 10px 0;
+}
+
+.li-date-group-hold {
+  width: 570px;
+  height: 14px;
+}
+
+.li-date-group-centered {
+  display: block;
+  width: auto;
+  height: 14px;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 10px;
+}
+
+.li-date-group-centered span {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  color: rgb(255, 255, 255);
+  display: inline-block;
+}
+
+.black-band-hold {
+  width: 570px;
+  height: 34px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-top: 1px solid rgba(0, 0, 0, 0.6);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+}
+
+.black-band-left {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 10px;
+}
+
+.black-band-left img {
+  width: 26px;
+  height: 26px;
+  margin: 0 6px;
+}
+
+.black-band-left h3 {
+  font-family: "Francois One", "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.5px;
+  line-height: 34px;
+}
+
+.black-band-center {
+  width: 110px;
+  height: 26px;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.8) inset;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.black-band-score-wrapper {
+  width: 55px;
+  height: 26px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.black-band-score-wrapper span {
+  font-family: "Francois One", "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.5px;
+  line-height: 26px;
+}
+
+.black-band-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.black-band-right img {
+  width: 26px;
+  height: 26px;
+  margin: 0 6px;
+}
+
+.black-band-right h3 {
+  font-family: "Francois One", "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.5px;
+  line-height: 34px;
+}
+
+/* SVG Chart Hover Styles */
+#teams g:hover .teams-path {
+  fill: rgb(0, 104, 55);
+}
+
+#groups g:hover .groups-path {
+  fill: rgb(0, 113, 188);
+}
+
+#stadiums g:hover .stadiums-path {
+  fill: rgb(140, 198, 63);
+}
+
+#calendar g:hover .calendar-path {
+  fill: rgb(193, 39, 45);
+}
